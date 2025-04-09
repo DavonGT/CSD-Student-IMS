@@ -1,0 +1,29 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block content %}
+    <h1>Other Info</h1>
+    <a href="{% url 'student_list' %}">Back</a>
+    <table id="students" class="display">
+        <thead>
+            <tr>
+	            <th>Student ID</th>
+                <th>Name</th>
+                <th>Emergency Contact Name</th>
+		        <th>Emergency Contact Number</th>
+                <th>Emergency Contact Relation</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+           
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $('#students').DataTable();
+        });
+    </script>
+{% endblock %}
+

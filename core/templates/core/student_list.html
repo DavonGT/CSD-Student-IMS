@@ -1,13 +1,7 @@
+{% extends "core/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Student List</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-</head>
-<body>
+
+{% block content %}
     <h1>Student List</h1>
     <a href="{% url 'student_create' %}">Add Student</a>
     <table id="students" class="display">
@@ -32,11 +26,11 @@
                 <td>{{ student.gender }}</td>
                 <td>{{ student.date_of_birth }}</td>
                 <td>{{ student.year_level }}</td>
-                2<td>{{ student.email }}</td>
+                <td>{{ student.email }}</td>
                 <td>
                     <a href="{% url 'student_update' student.pk %}">Edit</a> |
                     <a href="{% url 'student_delete' student.pk %}">Delete</a> |
-		    <a href="#">Other Info</a>
+                    <a href="{% url 'other_info' %}">Other Info</a>
                 </td>
             </tr>
             {% endfor %}
@@ -48,6 +42,5 @@
             $('#students').DataTable();
         });
     </script>
-</body>
-</html>
+{% endblock %}
 
