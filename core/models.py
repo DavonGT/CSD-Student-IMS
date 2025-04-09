@@ -14,6 +14,7 @@ class Student(models.Model):
     middle_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100)
     student_id = models.CharField(max_length=9, unique=True)
+    year_level = models.IntegerField(max_length=1, blank=False)
     email = models.EmailField(unique=True)
     course = models.CharField(max_length=100)
     date_of_birth = models.DateField()

@@ -13,13 +13,13 @@
     <table id="students" class="display">
         <thead>
             <tr>
-		<th>Student ID</th>
+	              <th>Student ID</th>
                 <th>Name</th>
                 <th>Course</th>
-		<th>Gender</th>
+		            <th>Gender</th>
                 <th>DOB</th>
-                <th>Email</th>
-                <th>Phone</th>
+                <th>Year Level</th>
+		            <th>Email</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -31,8 +31,8 @@
                 <td>{{ student.course }}</td>
                 <td>{{ student.gender }}</td>
                 <td>{{ student.date_of_birth }}</td>
-		<td>{{ student.email }}</td>
-                <td>{{ student.phone_number }}</td>
+                <td>{{ student.year_level }}</td>
+                2<td>{{ student.email }}</td>
                 <td>
                     <a href="{% url 'student_update' student.pk %}">Edit</a> |
                     <a href="{% url 'student_delete' student.pk %}">Delete</a> |
