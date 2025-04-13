@@ -4,9 +4,10 @@ from .forms import StudentForm
 
 # Create your views here.
 
-def student_info(request):
-    students = Student.objects.all()
-    return render(request, 'core/student_other_info.html', {'students': students})
+def student_info(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    
+    return render(request, 'core/student_other_info.html', {'student': student})
 
 def student_list(request):
     students = Student.objects.all()
