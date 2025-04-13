@@ -19,9 +19,9 @@
             <tr>
                 <td>{{ student.id }}</td>
                 <td>{{ student.name }}</td>
-                <td>{{ student.id }}</td>
-                <td>{{ student.id }}</td>
-                <td>{{ student.id }}</td>
+                <td>{{ student.emergency_contact_name }}</td>
+                <td>{{ student.emergency_contact_phone}}</td>
+                <td>{{ student.emergency_contact_relation }}</td>
                 <td>
                     <a href="{% url 'student_update' student.pk %}">Edit</a> |
                     <a href="{% url 'student_delete' student.pk %}">Delete</a> |
