@@ -1,0 +1,34 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>Student Dashboard</h1>
+
+<p><strong>Total Students:</strong> {{ total_students }}</p>
+
+<h2>Gender Ratio</h2>
+<ul>
+  {% for gender, count in gender_data.items %}
+    <li>{{ gender }}: {{ count }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Students per Year Level</h2>
+<ul>
+  {% for level in year_level_data %}
+    <li>Year {{ level.year_level }}: {{ level.count }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Age Statistics</h2>
+<ul>
+  <li>Average Age: {{ average_age }}</li>
+  <li>Youngest Student Age: {{ min_age }}</li>
+  <li>Oldest Student Age: {{ max_age }}</li>
+</ul>
+
+<a href={% url 'student_list' %}>See Students</a>
+
+{% endblock %}

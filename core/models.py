@@ -9,22 +9,28 @@ class Student(models.Model):
         ('F', 'Female'),
         ('O', 'Other'),
     ]
+    YEAR_LEVEL_CHOICES = [(i, str(i)) for i in range(1, 5)]
+    RELATIONSHIP_CHOICES = [
+        ('P', 'Parent'),
+        ('S', 'Sibling'),
+        ('G', 'Guardian'),
+        ('O', 'Other'),
+    ]
 
     first_name = models.CharField(max_length=100)
     middle_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100)
     student_id = models.CharField(max_length=9, unique=True)
-    year_level = models.IntegerField(blank=False)
+    year_level = models.IntegerField(choices=YEAR_LEVEL_CHOICES, blank=False)
     email = models.EmailField(unique=True)
-    course = models.CharField(max_length=100)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(verbose_name="Date of Birth")
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
     current_address = models.TextField(blank=True)
     permanent_address = models.TextField(blank=True)
     emergency_contact_name = models.CharField(max_length=100, blank=True)
     emergency_contact_phone = models.CharField(max_length=15, blank=True)
-    emergency_contact_relation = models.CharField(max_length=50, blank=True)
+    emergency_contact_relation = models.CharField(choices=RELATIONSHIP_CHOICES, max_length=50, blank=True)
     
     @property
     def name(self):
