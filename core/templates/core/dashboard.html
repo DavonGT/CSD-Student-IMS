@@ -1,35 +1,32 @@
 {% extends "core/base.html" %}
-
 {% load static %}
-
 {% block content %}
-
   <h1 style="color: #333; margin-bottom: 1em">CS Information Management</h1>
 
   <div class="wrapper">
-      <div class="gender-stats-container container" style="grid-area: box-1">
-        <h1>Student Dashboard</h1>
-        
-        <p><strong>Total Students:</strong> {{ total_students }}</p>
-        
-        <h2>Gender Ratio</h2>
-          
-        <ul>
-          {% for gender, count in gender_data.items %}
-            <li>{{ gender }}: {{ count }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-    
-      <div class="student-stats-container container" style="grid-area: box-2">
-        <h2>Students per Year Level</h2>
-        <ul>
-          {% for level in year_level_data %}
-            <li>Year {{ level.year_level }}: {{ level.count }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-  
+    <div class="gender-stats-container container" style="grid-area: box-1">
+      <h1>Student Dashboard</h1>
+      <p><strong>Total Students:</strong> {{ total_students }}</p>
+
+      <h2>Gender Ratio</h2>
+      <canvas id="genderChart"></canvas>
+      <ul>
+        {% for gender, count in gender_data.items %}
+          <li>{{ gender }}: {{ count }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="student-stats-container container" style="grid-area: box-2">
+      <h2>Students per Year Level</h2>
+      <canvas id="yearLevelChart"></canvas>
+      <ul>
+        {% for level in year_level_data %}
+          <li>Year {{ level.year_level }}: {{ level.count }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
     <div class="age-stats-container container" style="grid-area: box-3">
       <h2>Age Statistics</h2>
       <ul>
@@ -38,7 +35,38 @@
         <li>Oldest Student Age: {{ max_age }}</li>
       </ul>
     </div>
-  
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const genderChart = new Chart(document.getElementById('genderChart'), {
+      type: 'pie',
+      data: {
+        labels: [{% for gender, count in gender_data.items %}'{{ gender }}',{% endfor %}],
+        datasets: [{
+          label: 'Gender Ratio',
+          data: [{% for gender, count in gender_data.items %}{{ count }},{% endfor %}],
+          backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#A56E91'],
+        }]
+      }
+    });
+
+    const yearLevelChart = new Chart(document.getElementById('yearLevelChart'), {
+      type: 'bar',
+      data: {
+        labels: [{% for level in year_level_data %}'Year {{ level.year_level }}',{% endfor %}],
+        datasets: [{
+          label: 'Students per Year Level',
+          data: [{% for level in year_level_data %}{{ level.count }},{% endfor %}],
+          backgroundColor: '#4BC0C0',
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
 {% endblock %}
+
