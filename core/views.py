@@ -3,10 +3,11 @@ from .models import Student
 from .forms import StudentForm
 from django.db.models import Count, Avg, Min, Max
 
-# Create your views here.
+
 
 def dashboard(request):
     total_students = Student.objects.count()
+
 
     # Gender distribution
     gender_counts = Student.objects.values('gender').annotate(count=Count('gender'))
@@ -40,7 +41,7 @@ def dashboard(request):
         'year_level_data': year_level_data,
         'average_age': round(average_age, 1),
         'min_age': min_age,
-        'max_age': max_age
+        'max_age': max_age,
     }
 
     return render(request, 'core/dashboard.html', context)

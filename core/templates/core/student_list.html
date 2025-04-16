@@ -1,20 +1,23 @@
+
 {% extends "core/base.html" %}
+
 {% load static %}
 
 {% block content %}
-    <h1>Student List</h1>
-    <a href="{% url 'student_create' %}">Add Student</a>
-    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
 
-    <table id="students" class="display">
+    <h1 style="color: #333; margin-bottom: 1em">Student List</h1>
+
+    <button class="" onclick="window.location.href='{% url 'student_create' %}'">Add</button>
+
+    <table id="students" class="table">
         <thead>
             <tr>
-	              <th>Student ID</th>
+	            <th>Student ID</th>
                 <th>Name</th>
-		            <th>Gender</th>
+		        <th>Gender</th>
                 <th>DOB</th>
                 <th>Year Level</th>
-		            <th>Email</th>
+		        <th>Email</th>
                 <th>Actions</th>
             </tr>
         </thead>
