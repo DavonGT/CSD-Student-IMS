@@ -172,6 +172,7 @@ main p {
     border: none;
 }
 
+
 /* Size of the web pages for tablets */
 @media (max-width: 850px) {
     body {
