@@ -26,7 +26,7 @@ body {
     min-height: 100vh;
     min-height: 100dvh;
     background-color: var(--primary-color);
-    color: var(--text-color);
+    color: #333;
     display: grid;
     grid-template-columns: auto 1fr;
 }
@@ -153,13 +153,18 @@ main p {
     margin-bottom: 20px;
     padding-bottom: 20px;
     padding: min(3em, 15%);
+    color: var(--text-color);
 
-    h2, p { margin-top: 1em;}
+    h2 {
+        margin-top: 1em;
+        text-align: center;
+    }
 }
 
 .gender-stats-container {
     background-color: var(--secondary-color);
     border: none;
+    
 }
 
 .student-stats-container {
@@ -170,8 +175,75 @@ main p {
 .age-stats-container {
     background-color: var(--fourth-color);
     border: none;
+    height: 50vh;
 }
 
+.purple-button {
+    width: 150px;
+    height: 40px;
+    font: 16px;
+    padding: 0 15px;
+    color: var(--text-color);
+    background-color: var(--accent-color);
+    border-radius: .5em;
+    margin-bottom: 1em;
+    border: none;
+    font-weight: bold;
+}
+
+.purple-button:hover {
+    background-color: var(--accent-color);
+    transition: color 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 5px rgb(0, 0, 0);
+}
+
+/* <=====ACTION BUTTONS======> */
+.action-button-container {
+    height: 50px;
+    gap: 1.5em;
+}
+
+.edit-button {
+    height: 40px;
+    width: 40px;
+    border: none;
+    border-radius: .5em;
+    cursor: pointer;
+    background-color: var(--accent-color);
+}
+
+.edit-button:hover {
+    transition: color 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 5px rgb(0, 0, 0);
+}
+
+.delete-button {
+    height: 40px;
+    width: 40px;
+    border: none;
+    border-radius: .5em;
+    cursor: pointer;
+    background-color: #ac3434;
+}
+
+.delete-button:hover {
+    transition: color 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 5px rgb(0, 0, 0);
+}
+
+.others-button {
+    height: 40px;
+    width: 40px;
+    border: none;
+    border-radius: .5em;
+    cursor: pointer;
+    background-color: grey;
+}
+
+.others-button:hover {
+    transition: color 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 5px rgb(0, 0, 0);
+}
 
 /* Size of the web pages for tablets */
 @media (max-width: 850px) {

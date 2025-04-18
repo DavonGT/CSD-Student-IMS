@@ -9,7 +9,7 @@
       <p><strong>Total Students:</strong> {{ total_students }}</p>
 
       <h2>Gender Ratio</h2>
-      <canvas id="genderChart"></canvas>
+      <canvas id="genderChart" ></canvas>
       <ul>
         {% for gender, count in gender_data.items %}
           <li>{{ gender }}: {{ count }}</li>
@@ -36,12 +36,12 @@
       </ul>
     </div>
   </div>
-
+  
 <<<<<<< HEAD
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     const genderChart = new Chart(document.getElementById('genderChart'), {
-      type: 'pie',
+      type: 'doughnut',
       data: {
         labels: [{% for gender, count in gender_data.items %}'{{ gender }}',{% endfor %}],
         datasets: [{
@@ -49,11 +49,21 @@
           data: [{% for gender, count in gender_data.items %}{{ count }},{% endfor %}],
           backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#A56E91'],
         }]
+      },
+      options: {
+        cutout: '70%',
+        plugins: {
+          legend: {
+            labels: {
+              color: '#333' 
+            }
+          },
+        }
       }
     });
 
     const yearLevelChart = new Chart(document.getElementById('yearLevelChart'), {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: [{% for level in year_level_data %}'Year {{ level.year_level }}',{% endfor %}],
         datasets: [{
@@ -65,6 +75,13 @@
       options: {
         scales: {
           y: { beginAtZero: true }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: '#333',
+            }
+          },
         }
       }
     });
