@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
+from django.contrib.auth import authenticate, login, logout
 from .forms import StudentForm
 from django.db.models import Count, Avg, Min, Max
+from django.contrib.auth.models import User
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 # Accounts
@@ -37,6 +40,7 @@ def logoutView(request):
     logout(request)
     return redirect('login')
 
+@login_required
 def dashboard(request):
     total_students = Student.objects.count()
 
@@ -82,6 +86,7 @@ def student_info(request, pk):
     student = get_object_or_404(Student, pk=pk)
     return render(request, 'core/student_other_info.html', {'student': student})
 
+@login_required
 def student_list(request):
     students = Student.objects.all()
     return render(request, 'core/student_list.html', {'students': students})
