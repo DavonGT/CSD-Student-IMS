@@ -62,7 +62,7 @@
     });
 
     const yearLevelChart = new Chart(document.getElementById('yearLevelChart'), {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: [{% for level in year_level_data %}'Year {{ level.year_level }}',{% endfor %}],
         datasets: [{
