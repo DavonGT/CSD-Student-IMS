@@ -8,7 +8,7 @@
     <h1 style="color: #333; margin-bottom: 1em">Student List</h1>
 
     <button class="purple-button" onclick="window.location.href='{% url 'student_create' %}'">ADD</button>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" action="{% url 'upload_excel' %}">
         {% csrf_token %}
         <input type="file" name="excel_file" accept=".xlsx" required>
         <button type="submit">Upload Excel</button>

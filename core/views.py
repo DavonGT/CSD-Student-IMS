@@ -10,6 +10,7 @@ from django.core.files.storage import FileSystemStorage
 import pandas as pd
 
 def upload_excel(request):
+    print("working")
     if request.method == 'POST' and request.FILES['excel_file']:
         excel_file = request.FILES['excel_file']
         df = pd.read_excel(excel_file)
