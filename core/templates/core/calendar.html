@@ -1,130 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Student Birthday Calendar</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 70%;
-      margin: 0 auto;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      width: 14.28%;
-      height: 100px;
-      vertical-align: top;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    .today {
-      background-color: #add8e6;
-    }
-    .birthday {
-      display: block;
-      margin-top: 5px;
-      font-size: 0.8em;
-      color: #d9534f;
-    }
-    .header {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      align-items: center;
-    }
-    .header button {
-      padding: 5px 10px;
-    }
-  </style>
-</head>
-<body>
+{% extends "core/base.html" %}
 
-<div class="header">
-  <button onclick="changeMonth(-1)">Prev</button>
-  <h1 id="monthYear"></h1>
-  <button onclick="changeMonth(1)">Next</button>
-</div>
+{% load static %}
 
-<table>
-  <thead>
-    <tr>
-      <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
-    </tr>
-  </thead>
-  <tbody id="calendarBody"></tbody>
-</table>
+{% block content %}
 
-<script>
-  const birthdays = JSON.parse('{{ birthdays_json|safe }}');
+  <div class="calendar-content">
+    <div class="header">
+      <button onclick="changeMonth(-1)">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+      </button>
+      <h1 id="monthYear"></h1>
+      <button onclick="changeMonth(1)">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F3F3F3"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg>
+      </button>
+    </div>
 
-  let currentDate = new Date();
+    <table>
+      <thead>
+        <tr>
+          <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+        </tr>
+      </thead>
+      <tbody id="calendarBody"></tbody>
+    </table>
+  </div>
 
-  function renderCalendar(date) {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const firstDay = new Date(year, month, 1).getDay();
-    const lastDate = new Date(year, month + 1, 0).getDate();
+  <script>
+    const birthdays = JSON.parse('{{ birthdays_json|safe }}');
 
-    document.getElementById("monthYear").innerText =
-      date.toLocaleString('default', { month: 'long' }) + " " + year;
+    let currentDate = new Date();
 
-    const tbody = document.getElementById("calendarBody");
-    tbody.innerHTML = "";
+    function renderCalendar(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const firstDay = new Date(year, month, 1).getDay();
+      const lastDate = new Date(year, month + 1, 0).getDate();
 
-    let row = document.createElement("tr");
-    for (let i = 0; i < firstDay; i++) {
-      row.appendChild(document.createElement("td"));
-    }
+      document.getElementById("monthYear").innerText =
+        date.toLocaleString('default', { month: 'long' }) + " " + year;
 
-    for (let day = 1; day <= lastDate; day++) {
-      if ((firstDay + day - 1) % 7 === 0 && day !== 1) {
-        tbody.appendChild(row);
-        row = document.createElement("tr");
+      const tbody = document.getElementById("calendarBody");
+      tbody.innerHTML = "";
+
+      let row = document.createElement("tr");
+      for (let i = 0; i < firstDay; i++) {
+        row.appendChild(document.createElement("td"));
       }
 
-      const cell = document.createElement("td");
-      cell.innerHTML = `<strong>${day}</strong>`;
-
-      const today = new Date();
-      if (
-        day === today.getDate() &&
-        month === today.getMonth() &&
-        year === today.getFullYear()
-      ) {
-        cell.classList.add("today");
-      }
-
-      birthdays.forEach(b => {
-        const bday = new Date(b.date);
-        if (bday.getMonth() === month && bday.getDate() === day) {
-          const span = document.createElement("span");
-          span.className = "birthday";
-          span.textContent = `🎉 ${b.name}`;
-          cell.appendChild(span);
+      for (let day = 1; day <= lastDate; day++) {
+        if ((firstDay + day - 1) % 7 === 0 && day !== 1) {
+          tbody.appendChild(row);
+          row = document.createElement("tr");
         }
-      });
 
-      row.appendChild(cell);
+        const cell = document.createElement("td");
+        cell.innerHTML = `<strong>${day}</strong>`;
+
+        const today = new Date();
+        if (
+          day === today.getDate() &&
+          month === today.getMonth() &&
+          year === today.getFullYear()
+        ) {
+          cell.classList.add("today");
+        }
+
+        birthdays.forEach(b => {
+          const bday = new Date(b.date);
+          if (bday.getMonth() === month && bday.getDate() === day) {
+            const span = document.createElement("span");
+            span.className = "birthday";
+            span.textContent = `🎉 ${b.name}`;
+            cell.appendChild(span);
+          }
+        });
+
+        row.appendChild(cell);
+      }
+
+      tbody.appendChild(row);
     }
 
-    tbody.appendChild(row);
-  }
+    function changeMonth(direction) {
+      currentDate.setMonth(currentDate.getMonth() + direction);
+      renderCalendar(currentDate);
+    }
 
-  function changeMonth(direction) {
-    currentDate.setMonth(currentDate.getMonth() + direction);
     renderCalendar(currentDate);
-  }
+  </script>
 
-  renderCalendar(currentDate);
-</script>
 
-</body>
-</html>
 
+{% endblock content %}

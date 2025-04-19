@@ -1,33 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Student Details</title>
-    <style>
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-        }
-        input[readonly], textarea[readonly] {
-            width: 100%;
-            padding: 5px;
-            margin-top: 2px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-container {
-            max-width: 600px;
-            margin: auto;
-        }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <h2>{{ student.first_name }}'s Full Details</h2>
-        <form>
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+    <h2 style="margin-left: 2em">{{ student.first_name }}'s Full Details</h2>
+    <form class="other-student-form-container">
+        <div class="container" style="grid-area: box1">
             <div class="form-group">
                 <label>First Name</label>
                 <input type="text" value="{{ student.first_name }}" readonly>
@@ -44,6 +23,9 @@
                 <label>Student ID</label>
                 <input type="text" value="{{ student.student_id }}" readonly>
             </div>
+        </div>
+
+        <div class="container" style="grid-area: box2">
             <div class="form-group">
                 <label>Year Level</label>
                 <input type="text" value="{{ student.get_year_level_display }}" readonly>
@@ -60,6 +42,9 @@
                 <label>Gender</label>
                 <input type="text" value="{{ student.get_gender_display }}" readonly>
             </div>
+        </div>
+
+        <div class="container" style="grid-area: box3">
             <div class="form-group">
                 <label>Phone Number</label>
                 <input type="text" value="{{ student.phone_number }}" readonly>
@@ -72,6 +57,9 @@
                 <label>Permanent Address</label>
                 <textarea readonly>{{ student.permanent_address }}</textarea>
             </div>
+        </div>
+
+        <div class="container" style="grid-area: box4">
             <div class="form-group">
                 <label>Emergency Contact Name</label>
                 <input type="text" value="{{ student.emergency_contact_name }}" readonly>
@@ -84,7 +72,7 @@
                 <label>Emergency Contact Relation</label>
                 <input type="text" value="{{ student.get_emergency_contact_relation_display }}" readonly>
             </div>
-        </form>
-    </div>
-</body>
-</html>
+        </div>
+    </form>
+    
+{% endblock content %}

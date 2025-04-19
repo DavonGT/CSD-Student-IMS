@@ -55,18 +55,8 @@ body {
     padding: 5px;
 }
 
-
 #sidebar ul {
     list-style: none;
-}
-
-#sidebar > ul > li:first-child{
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-    .logo {
-        font-weight: 600;
-    }
 }
 
 #sidebar ul li.active a {
@@ -112,7 +102,7 @@ body {
     border-radius: .5em;
     background: none;
     cursor: pointer;
-
+    rotate: 180deg;
     svg {
         transition: rotate 150ms ease;
     }
@@ -121,6 +111,12 @@ body {
     background-color: var(--hover-color);
 }
 
+.sidebar-spacer {
+    height: 46vh;
+    border-bottom: 2px solid var(--primary-color);
+    margin-left: 5px;
+    margin-right: 5px;
+}
 
 
 /* <===== MAIN =====> */
@@ -136,8 +132,8 @@ main p {
 
 .wrapper {
     display: grid;
-    grid-template-columns: 750px 750px;
-    grid-template-rows: 250px 250px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     grid-template-areas:
         "box-1 box-2"
         "box-1 box-2"
@@ -148,17 +144,77 @@ main p {
 }
 
 .container {
-    border: 1px solid var(--line-color);
     border-radius: 1em;
     margin-bottom: 20px;
     padding-bottom: 20px;
     padding: min(3em, 15%);
-    color: var(--text-color);
+    color: #333;
 
     h2 {
         margin-top: 1em;
         text-align: center;
     }
+}
+
+/* <===== MENU =====> */
+.menu-2 {
+    display: grid;
+    height: 100px;
+    width: 1000px;
+    grid-template-columns:  100px 100px 100px ;
+    grid-template-rows:   100px;
+    grid-template-areas: 
+        "button-1 button-2 button-3"
+    ;
+    gap: 1em;
+}
+
+.menu-2 ul {
+    list-style: none;
+}
+
+.menu-2 button {
+    width: 100px;
+    height: 50px;
+    font: 16px;
+    padding: 0 15px;
+    color: var(--text-color);
+    background-color: var(--accent-color);
+    border-radius: .5em;
+    margin-top: 10px;
+    margin-bottom: 1em;
+    border: none;
+    font-weight: bold;
+    gap: 2em;
+}
+
+.menu-2 button:hover {
+    background-color: var(--hover-color);
+    transition: color 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 5px rgb(0, 0, 0);
+}
+
+.menu-2 label {
+    width: 100px;
+    height: 50px;
+    font: 8px;
+    padding: 12px 15px;
+    text-align: center;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border-radius: .5em;
+    border: none;
+    font-weight: bold;
+}
+
+.menu-2 label:hover {
+    background-color: var(--hover-color);
+    transition: color 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 5px rgb(0, 0, 0);
+}
+
+.file-input {
+    display: none;
 }
 
 .gender-stats-container {
@@ -245,6 +301,126 @@ main p {
     box-shadow: 0 0 5px rgb(0, 0, 0);
 }
 
+
+
+/* <===== CALENDAR =====> */
+
+.calendar-content {
+    margin-top: 3em;
+}
+
+.calendar-content table {
+    border-collapse: collapse;
+    height: 20vh;
+    width: 40vw;
+    margin: 0 auto;
+}
+
+.calendar-content table th {
+    color: #959595;
+}
+
+.calendar-content table th, td {
+    padding: 2.5em 1em;
+    text-align: center;
+    margin: 1em;
+}
+
+.calendar-content td:hover {
+    border-bottom: 10px solid var(--hover-color);
+}
+
+.today {
+    background-color: var(--fourth-color);
+}
+
+.birthday {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.8em;
+    color: #d9534f;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+.header h1 {
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+.header button {
+    height: 50px;
+    width: 50px;
+    border-radius: .50%;
+    padding: .5em 1em;
+    border: none;
+    background-color: transparent;
+    svg {
+        fill: #333;
+        height: 30px;
+        width: 30px;
+    }
+}
+
+.header button:hover {
+    background-color: #33333346;
+    border-radius: 50%;
+}
+
+
+
+/* <===== OTHER INFO =====> */
+
+label {
+    font-size: 16px;
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+input[readonly], textarea[readonly] {
+    font-size: 16px;
+    height: 30px;
+    width: 350px;
+    padding: 5px;
+    margin-top: 2px;
+    background-color: transparent;
+    border: none;
+    border-left: 3px solid var(--accent-color);
+    pointer-events: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.other-student-form-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 280px 280px;
+    grid-template-areas:
+        "box1 box3"
+        "box2 box4"
+    ;
+    color: #333;
+    gap: 1em;
+    text-align: left;
+}
+
+
+@media (max-width: 1024px) {
+    .sidebar-spacer {
+        height: 40vh;
+    }
+}
+
+
 /* Size of the web pages for tablets */
 @media (max-width: 850px) {
     body {
@@ -260,12 +436,13 @@ main p {
     #sidebar {
         margin-right: 1em;
         height: 60px;
-        width: 100%;
+        width: 95%;
         border-top: 1px solid var(--line-color);
         padding: 0;
         position: fixed;
         top: unset;
         bottom: 0;
+        overflow-x: scroll;
 
         > ul {
             padding: 0;
@@ -273,7 +450,6 @@ main p {
             grid-auto-columns: 60px;
             grid-auto-flow: column;
             align-items: center;
-            overflow-x: scroll;
         }
         ul li{
             height: 100%;
@@ -290,6 +466,13 @@ main p {
             display: none;
         }
     }
+    .sidebar-spacer {
+        height: 50px;
+        border-right: 2px solid var(--primary-color);
+        border-bottom: none;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
     .wrapper {
         grid-template-columns: 150px 150px;
         grid-template-rows: 300px 300px;
@@ -300,4 +483,9 @@ main p {
             "box-3 box-3"
         ;
     }
+    .calendar-content {
+        margin-top: 2em;
+    }
+
+
 }
