@@ -8,6 +8,21 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 import pandas as pd
+from django.core.serializers.json import DjangoJSONEncoder
+import json
+
+def calendar_view(request):
+    students = Student.objects.all()
+    birthdays = [
+        {
+            "name": student.name,
+            "date": student.date_of_birth.strftime('%Y-%m-%d')
+        }
+        for student in students
+    ]
+    return render(request, "core/calendar.html", {
+        "birthdays_json": json.dumps(birthdays, cls=DjangoJSONEncoder)
+    })
 
 def upload_excel(request):
     print("working")
