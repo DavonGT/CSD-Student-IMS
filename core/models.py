@@ -10,11 +10,18 @@ class Student(models.Model):
         ('O', 'Other'),
     ]
     YEAR_LEVEL_CHOICES = [(i, str(i)) for i in range(1, 5)]
+
     RELATIONSHIP_CHOICES = [
         ('P', 'Parent'),
         ('S', 'Sibling'),
         ('G', 'Guardian'),
         ('O', 'Other'),
+    ]
+
+    STATUS_CHOICES = [
+        ('Regular', 'Regular'),
+        ('Irregular', 'Irregular'),
+        ('Other', 'Other')
     ]
 
     first_name = models.CharField(max_length=100)
@@ -28,6 +35,9 @@ class Student(models.Model):
     phone_number = models.CharField(max_length=15, blank=True)
     current_address = models.TextField(blank=True)
     permanent_address = models.TextField(blank=True)
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES)
+
+    # emergency contact
     emergency_contact_name = models.CharField(max_length=100, blank=True)
     emergency_contact_phone = models.CharField(max_length=15, blank=True)
     emergency_contact_relation = models.CharField(choices=RELATIONSHIP_CHOICES, max_length=50, blank=True)
