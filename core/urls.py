@@ -22,6 +22,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('logout/', views.logoutView, name='logout'),
     path('', views.dashboard, name='dashboard'),
+    path('upload-excel/', views.upload_excel, name='upload_excel'),
     path('show_students/', views.student_list, name='student_list'),
     path('create/', views.student_create, name='student_create'),
     path('update/<int:pk>/', views.student_update, name='student_update'),

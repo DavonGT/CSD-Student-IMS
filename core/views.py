@@ -6,6 +6,33 @@ from django.db.models import Count, Avg, Min, Max
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import FileSystemStorage
+import pandas as pd
+
+def upload_excel(request):
+    if request.method == 'POST' and request.FILES['excel_file']:
+        excel_file = request.FILES['excel_file']
+        df = pd.read_excel(excel_file)
+
+        for _, row in df.iterrows():
+            Student.objects.create(
+                first_name=row['first_name'],
+                middle_name=row.get('middle_name', ''),
+                last_name=row['last_name'],
+                student_id=row['student_id'],
+                year_level=int(row['year_level']),
+                email=row['email'],
+                date_of_birth=row['date_of_birth'],
+                gender=row.get('gender'),
+                phone_number=row.get('phone_number', ''),
+                current_address=row.get('current_address', ''),
+                permanent_address=row.get('permanent_address', ''),
+                emergency_contact_name=row.get('emergency_contact_name', ''),
+                emergency_contact_phone=row.get('emergency_contact_phone', ''),
+                emergency_contact_relation=row.get('emergency_contact_relation', '')
+            )
+        messages.success(request, "Excel file uploaded successfully!")
+        return redirect('student_list')
 
 # Accounts
 def register(request):
