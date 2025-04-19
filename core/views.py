@@ -2,8 +2,40 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
 from .forms import StudentForm
 from django.db.models import Count, Avg, Min, Max
+from django.contrib.auth.decorators import login_required
 
+# Accounts
+def register(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        password1 = request.POST['password1']
+        if password != password1:
+            messages.error(request, "Passwords didn't match!")
+            return render(request, 'core/register')
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists.')
+        else:
+            User.objects.create_user(username=username, password=password)
+            messages.success(request, 'Registered successfully.')
+            return redirect('login')
+    return render(request, 'core/register.html')
 
+def loginView(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Invalid credentials.')
+    return render(request, 'core/login.html')
+
+def logoutView(request):
+    logout(request)
+    return redirect('login')
 
 def dashboard(request):
     total_students = Student.objects.count()
@@ -46,19 +78,15 @@ def dashboard(request):
 
     return render(request, 'core/dashboard.html', context)
 
-
-
-
-
 def student_info(request, pk):
     student = get_object_or_404(Student, pk=pk)
-    
     return render(request, 'core/student_other_info.html', {'student': student})
 
 def student_list(request):
     students = Student.objects.all()
     return render(request, 'core/student_list.html', {'students': students})
 
+@login_required
 def student_create(request):
     if request.method == 'POST':
         form = StudentForm(request.POST)
@@ -69,6 +97,7 @@ def student_create(request):
         form = StudentForm()
     return render(request, 'core/student_form.html', {'form': form})
 
+@login_required
 def student_update(request, pk):
     student = get_object_or_404(Student, pk=pk)
     form = StudentForm(request.POST or None, instance=student)
@@ -77,6 +106,7 @@ def student_update(request, pk):
         return redirect('student_list')
     return render(request, 'core/student_form.html', {'form': form})
 
+@login_required
 def student_delete(request, pk):
     student = get_object_or_404(Student, pk=pk)
     if request.method == 'POST':
