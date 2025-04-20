@@ -10,23 +10,23 @@
     <link rel="stylesheet" href="{% static 'core/css/modal.css' %}">
 </head>
 <body>
-    <div class="modal">
-        <div class="modal-content">
-            <h2 class="mb-4">{% if form.instance.pk %}Edit{% else %}Add{% endif %} Student</h2>
-            <form method="post" class="needs-validation">
-                {% csrf_token %}
+    <div>
+        <form method="post" class="modal-content">
+            {% csrf_token %}
                 
-                <!-- Other Student Fields -->
+            <!-- Other Student Fields -->
+            <div class="modal-content-container" style="grid-area: info1">
+                <h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Student</h2>
                 <h3>Personal Info</h3>
 
                 {{ form.first_name.label }} {{ form.first_name }}
-                 
+                    
                 {{ form.middle_name.label }} {{ form.middle_name }}
-                 
+                    
                 {{ form.last_name.label }} {{ form.last_name }}
-                 
+                    
                 {{ form.student_id.label }} {{ form.student_id }}
-                 
+                    
                 {{ form.year_level.label }} {{ form.year_level }}
 
                 {{ form.status.label }} {{ form.status }}
@@ -38,74 +38,60 @@
                 {{ form.gender.label }} {{ form.gender }}
 
                 {{ form.phone_number.label }} {{ form.phone_number }}
+            </div>
 
-
-
-                <!-- Current Address -->
+            <!-- Current Address -->
+            <div class="modal-info-container" style="grid-area: info2">
                 <h3>Current Address</h3>
-                <div class="mb-3">
-                    <label for="id_current_province_code" class="form-label">Province</label>
-                    <select id="id_current_province_code" name="current_province_code" class="form-select">
-                        <option value="">Select Province</option>
-                        {% for province in provinces %}
-                            <option value="{{ province.code }}">{{ province.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="id_current_city_code" class="form-label">City/Municipality</label>
-                    <select id="id_current_city_code" name="current_city_code" class="form-select">
-                        <option value="">Select City/Municipality</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="id_current_barangay_code" class="form-label">Barangay</label>
-                    <select id="id_current_barangay_code" name="current_barangay_code" class="form-select">
-                        <option value="">Select Barangay</option>
-                    </select>
-                </div>
+                <label for="id_current_province_code">Province</label>
+                <select id="id_current_province_code" name="current_province_code" >
+                    <option value="">Select Province</option>
+                    {% for province in provinces %}
+                        <option value="{{ province.code }}">{{ province.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="id_current_city_code" >City/Municipality</label>
+                <select id="id_current_city_code" name="current_city_code" >
+                    <option value="">Select City/Municipality</option>
+                </select>
+                <label for="id_current_barangay_code" >Barangay</label>
+                <select id="id_current_barangay_code" name="current_barangay_code" >
+                    <option value="">Select Barangay</option>
+                </select>
 
                 <!-- Permanent Address -->
-                 <h3>Permanent Address</h3>
-                <div class="mb-3">
-                    <label for="id_permanent_province_code" class="form-label">Province</label>
-                    <select id="id_permanent_province_code" name="permanent_province_code" class="form-select">
-                        <option value="">Select Province</option>
-                        {% for province in provinces %}
-                            <option value="{{ province.code }}">{{ province.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+                <h3>Permanent Address</h3
+                <label for="id_permanent_province_code">Province</label>
+                <select id="id_permanent_province_code" name="permanent_province_code" >
+                    <option value="">Select Province</option>
+                    {% for province in provinces %}
+                        <option value="{{ province.code }}">{{ province.name }}</option>
+                    {% endfor %}
+                </select>
 
-                <div class="mb-3">
-                    <label for="id_permanent_city_code" class="form-label">City/Municipality</label>
-                    <select id="id_permanent_city_code" name="permanent_city_code" class="form-select">
-                        <option value="">Select City/Municipality</option>
-                    </select>
-                </div>
+                <label for="id_permanent_city_code" >City/Municipality</label>
+                <select id="id_permanent_city_code" name="permanent_city_code" >
+                    <option value="">Select City/Municipality</option>
+                </select>
 
-                <div class="mb-3">
-                    <label for="id_permanent_barangay_code" class="form-label">Barangay</label>
-                    <select id="id_permanent_barangay_code" name="permanent_barangay_code" class="form-select">
-                        <option value="">Select Barangay</option>
-                    </select>
-                </div>
+                <label for="id_permanent_barangay_code" >Barangay</label>
+                <select id="id_permanent_barangay_code" name="permanent_barangay_code" >
+                    <option value="">Select Barangay</option>
+                </select>
 
                 <h3>Emergency Contact Info</h3>
                 {{ form.emergency_contact_name.label }} {{ form.emergency_contact_name }}
                 {{ form.emergency_contact_phone.label }} {{ form.emergency_contact_phone }}
                 {{ form.emergency_contact_relation.label }} {{ form.emergency_contact_relation }}
-
-
-                
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a href="{% url 'student_list' %}" class="btn btn-secondary" style="width: 310px; height: 46px; padding: 10px 0;">Cancel</a>
-            </form>
-        </div>
+            </div>
+            
+            <div class="modal-info-container" style="grid-area: info3"></div>
+                <button class="save-button" type="submit">Save</button>
+                <button class="cancel-button" onclick="window.location.href='{% url 'student_list' %}'">Cancel</button>
+            </div>
+        </form>
     </div>
-
+    
     <!-- JavaScript for Dynamic Address Population -->
     <script>
         document.getElementById("id_current_province_code").addEventListener("change", function () {

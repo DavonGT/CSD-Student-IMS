@@ -1,109 +1,77 @@
-.no-scroll {
-    height: 100vh;
-    width: 100vw;
-  }
-  
-/* Modal Background */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 9;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-}
+
+
 
 /* Modal Box */
 .modal-content {
-    width: 25vw; 
-    height: 1750px;
-    top: 450px;
     gap: 1em;
-    display: flex;
-    justify-content:center;
-    align-items:center;
-    padding: 10em 5em;
-    border-radius: 10px;
-    border: 2px solid rgb(255, 255, 255, .2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+        "info1 info2"
+        "info1 info2"
+        "info3 info3"
+    ;
     background-color: #fff;
     color: #333;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    padding: 2em 2em;
+    overflow: hidden;
+}
+
+.modal-info-container {
+    border-radius: 1em;
+    padding: 0;
+    color: #333;
+    width: 100%;
+    align-items: left;
+
 }
 
 .modal-content h2 {
     font-weight: 600;
 }
 
-.modal button {
-    width: 45vw;
-    max-width: 360px;
+.cancel-button {
     width: 100%;
-    padding: 12px;
-    background: #8868e7;
-    border-radius: 6px;
-    border: none;
-    cursor: #fff;
-    color: #fff;
-    font-weight: 500;
-    margin-bottom: 20px;
-    transition: 0.5s;
-}
-
-.grey-button {
-    width: 250px;
-    height: 40px;
+    height: 50px;
     font: 16px;
     padding: 0 15px;
-    color: var(--text-color);
-    background-color: gray;
-    border-radius: .5em;
+    color: #8868e7;
+    border:2px solid #8868e7;
+    background-color: #fff;
+    border-radius: 10em;
     margin-bottom: 1em;
-    border: none;
     font-weight: bold;
 }
 
-.modal-content button {
+.cancel-button:hover {
+    cursor: pointer;
+    transition: color 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 5px rgb(0, 0, 0);
+}
+
+.save-button {
     min-width: 100%;
-    height: auto;
+    height: 50px;
     padding: 12px;
     background: #8868e7;
-    border-radius: 6px;
+    border-radius: 10em;
     border: none;
     color: #fff;
     font-weight: bold;
-    margin-bottom: 20px;
-    margin-top: 30px;
     transition: 0.5s;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
 }
 
-
-/* Close Button */
-.close {
-    height: 5em;
-    width: 4em;
-    color: #fff;
-    float: right;
+.save-button:hover {
+    background-color: #8868e7;
+    color:  #fff;
     cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 0;
+    transition: color 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 5px rgb(0, 0, 0);
 }
 
-.close:hover {
-    color: #333;
-}
+
 
 /* Form Container */
 .modal-content form {
@@ -124,10 +92,8 @@
 .modal-content select,
 .modal-content textarea,
 .modal-content input  { 
-    min-width: 16vw;
     width: 100%;
     height: 35px;
-    padding: 0 1em;
     background: #eee;
     border-radius: 6px;
     border: none;
@@ -137,19 +103,6 @@
 
 .modal-content input::placeholder {
     color: #333;
-}
-
-.file-upload-content input{
-    width: 100%;
-    font-size: 16px;
-    height: 45px;
-    padding: 0.8em 1em;
-    background: #eee;
-    border-radius: 6px;
-    border: none;
-    outline: none;
-    color: #333;
-    margin-bottom: 10px;   
 }
 
 .select-cour
@@ -182,68 +135,18 @@
     cursor: pointer;
 }
 
-/* Submit Button */
-.modal-content button {
-    width: 100%;
-    padding: 12px;
-    background: var();
-    border-radius: 6px;
-    border: none;
-    cursor: #fff;
-    color: #fff;
-    font-weight: 500px;
-    margin-bottom: 20px;
-    transition: 0.5s;
-}
-
-.modal-content button:hover {
-    background-color: #8868e7;
-    color:  #fff;
-    cursor: pointer;
-    transition: color 0.3s ease, background 0.3s ease;
-    box-shadow: 0 0 5px rgb(0, 0, 0);
-}
-
-@media (max-width: 1024px) {
-    .modal-content {
-        width: 50%;
-        padding: 1em 2em;
-        min-height: 100vh;
-        margin-top: 50px;
-    }
-    .open-modal-btn button {
-        width: 40vw;
-    }
-    .modal-content select,
-    .modal-content textarea,
-    .modal-content input  { 
-        min-width: 30vw;
-    }
-}
 
 
-@media (max-width: 800px) {
-    .modal-content {
-        width: 50%;
-        padding: 1em 2em;
-        min-height: 60vh;
-    }
-    .open-modal-btn button {
-        width: 40vw;
-    }
-}
 
 @media (max-width: 425px) {
-    .modal {
-        background-color: #fff;
-    }
     .modal-content {
-        margin-top: 200px;
-        margin-bottom: 100px;
-        height: 100vh;
-        width: 100%;
-        padding: 1em 5em;
-        box-shadow: none;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: 
+            "info1"
+            "info2"
+            "info3"
+        ;
     }
     .modal-content button {
         width: 80vw;    
@@ -251,6 +154,6 @@
     .modal-content select,
     .modal-content textarea,
     .modal-content input  { 
-        min-width: 80vw;
+        min-width: 100%;
     }
 }
