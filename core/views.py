@@ -37,6 +37,36 @@ def calendar_view(request):
     })
 
 def upload_excel(request):
+    def get_province_code(name):
+        if not name:
+            return ""
+        response = requests.get("https://psgc.gitlab.io/api/provinces/")
+        if response.status_code == 200:
+            for province in response.json():
+                if province.get("name", "").lower() == name.lower():
+                    return province.get("code", "")
+        return ""
+
+    def get_city_code(name):
+        if not name:
+            return ""
+        response = requests.get("https://psgc.gitlab.io/api/cities-municipalities/")
+        if response.status_code == 200:
+            for city in response.json():
+                if city.get("name", "").lower() == name.lower():
+                    return city.get("code", "")
+        return ""
+
+    def get_barangay_code(name):
+        if not name:
+            return ""
+        response = requests.get("https://psgc.gitlab.io/api/barangays/")
+        if response.status_code == 200:
+            for barangay in response.json():
+                if barangay.get("name", "").lower() == name.lower():
+                    return barangay.get("code", "")
+        return ""
+
     if request.method == 'POST':
         print("Hello there")
         form = UploadFileForm(request.POST, request.FILES)
@@ -49,7 +79,7 @@ def upload_excel(request):
             sheet = wb.active
 
             for row in sheet.iter_rows(min_row=2, values_only=True):
-                first_name, middle_name, last_name, student_id, year_level, email, date_of_birth,gender,phone_number, current_province, current_city_muni, current_barangay, permanent_province, permanent_city_muni, permanent_barangay, emergency_contact_name,\
+                first_name, middle_name, last_name, student_id, year_level, email, date_of_birth,gender,phone_number, current_province, current_city, current_barangay, permanent_province, permanent_city, permanent_barangay, emergency_contact_name,\
                 emergency_contact_phone, emergency_contact_relation = row
                 Student.objects.create(
                     first_name=first_name,
@@ -61,13 +91,13 @@ def upload_excel(request):
                     date_of_birth=date_of_birth,
                     gender=gender,
                     phone_number=phone_number,
-                    current_province=current_province,
-                    current_city_muni=current_city_muni,
-                    current_barangay=current_barangay,
-                    permanent_province=permanent_province,
-                    permanent_city_muni=permanent_city_muni,
-                    permanent_barangay=permanent_barangay,
-                    emergency_contact_name=emergency_contact_name,
+                    current_province_code=get_province_code(current_province.title()),
+                    current_city_code=get_city_code(current_city.title()),
+                    current_barangay_code=get_barangay_code(current_barangay.title()),
+ 
+                    permanent_province_code=get_province_code(permanent_province.title()),
+                    permanent_city_code=get_city_code(permanent_city.title()),
+                    permanent_barangay_code=get_barangay_code(permanent_barangay.title()),
                     emergency_contact_phone=emergency_contact_phone,
                     emergency_contact_relation=emergency_contact_relation
                 )
