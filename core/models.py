@@ -33,9 +33,18 @@ class Student(models.Model):
     date_of_birth = models.DateField(verbose_name="Date of Birth")
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
-    current_address = models.TextField(blank=True)
-    permanent_address = models.TextField(blank=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES)
+
+    # Current Address
+    current_province_code = models.CharField(max_length=10, blank=True)
+    current_city_code = models.CharField(max_length=10, blank=True)
+    current_barangay_code = models.CharField(max_length=10, blank=True)
+
+    # Permanent Address
+    permanent_province_code = models.CharField(max_length=10, blank=True)
+    permanent_city_code = models.CharField(max_length=10, blank=True)
+    permanent_barangay_code = models.CharField(max_length=10, blank=True)
+
 
     # emergency contact
     emergency_contact_name = models.CharField(max_length=100, blank=True)
@@ -47,6 +56,38 @@ class Student(models.Model):
         if self.middle_name:
             return f"{self.last_name}, {self.first_name} {self.middle_name[0]}."
         return f"{self.last_name}, {self.first_name}"
+    
+    @property
+    def current_address(self):
+        print("From models here!!!!!!!!!!!!!!!!\n",self.current_province_code)
+        print("Name:", self.name)
+        return f"{self.get_barangay_name(self.current_barangay_code)}, {self.get_city_name(self.current_city_code)}, {self.get_province_name(self.current_province_code)}"
+
+    @property
+    def permanent_address(self):
+        return f"{self.get_barangay_name(self.permanent_barangay_code)}, {self.get_city_name(self.permanent_city_code)}, {self.get_province_name(self.permanent_province_code)}"
+
+    def get_province_name(self, code):
+        import requests
+        if not code:
+            return ""
+        response = requests.get(f"https://psgc.gitlab.io/api/provinces/{code}/")
+        return response.json().get("name", "") if response.status_code == 200 else ""
+
+    def get_city_name(self, code):
+        import requests
+        if not code:
+            return ""
+        response = requests.get(f"https://psgc.gitlab.io/api/cities-municipalities/{code}/")
+        return response.json().get("name", "") if response.status_code == 200 else ""
+
+    def get_barangay_name(self, code):
+        import requests
+        if not code:
+            return ""
+        response = requests.get(f"https://psgc.gitlab.io/api/barangays/{code}/")
+        return response.json().get("name", "") if response.status_code == 200 else ""
+
 
     def __str__(self):
         return f"{self.name} ({self.student_id})"
