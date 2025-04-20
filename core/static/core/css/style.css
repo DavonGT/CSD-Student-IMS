@@ -168,12 +168,12 @@ main p {
     position: sticky;
     bottom: 70px;
     z-index: 1;
-    height: 90px;
+    height: 80px;
     justify-content: center;
 }
 .menu-2 {
     display: grid;
-    height: 80px;
+    height: 70px;
     width: 100%;
     grid-template-columns:  120px 120px 120px ;
     grid-template-rows:   60px;
