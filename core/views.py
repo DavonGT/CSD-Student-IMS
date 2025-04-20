@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
 from django.contrib.auth import authenticate, login, logout
-from .forms import StudentForm
+from .forms import StudentForm, UploadFileForm
 from django.db.models import Count, Avg, Min, Max
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -11,6 +11,7 @@ import pandas as pd
 from django.core.serializers.json import DjangoJSONEncoder
 import json
 import requests
+import openpyxl
 
 def get_provinces():
     # Fetch the provinces from the API
@@ -36,34 +37,42 @@ def calendar_view(request):
     })
 
 def upload_excel(request):
-    if request.method == 'POST' and request.FILES['excel_file']:
-        excel_file = request.FILES['excel_file']
-        df = pd.read_excel(excel_file)
+    if request.method == 'POST':
+        print("Hello there")
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            # excel_file = request.FILES['excel_file']
+            # df = pd.read_excel(excel_file)
+            excel_file = request.FILES['files']
+            # df = pd.read_excel(excel_file)
+            wb = openpyxl.load_workbook(excel_file)
+            sheet = wb.active
 
-        for _, row in df.iterrows():
-            Student.objects.create(
-                first_name=row['first_name'],
-                middle_name=row.get('middle_name', ''),
-                last_name=row['last_name'],
-                student_id=row['student_id'],
-                year_level=int(row['year_level']),
-                status=row['status']
-                email=row['email'],
-                date_of_birth=row['date_of_birth'],
-                gender=row.get('gender'),
-                phone_number=row.get('phone_number', ''),
-                current_province=row.get('current_province', ''),
-                current_city_muni=row.get('current_city_muni', ''),
-                current_barangay=row.get('current_barangay', ''),
-                permanent_province=row.get('permanent_province', ''),
-                permanent_city_muni=row.get('permanent_city_muni', ''),
-                permanent_barangay=row.get('permanent_barangay', ''),
-                emergency_contact_name=row.get('emergency_contact_name', ''),
-                emergency_contact_phone=row.get('emergency_contact_phone', ''),
-                emergency_contact_relation=row.get('emergency_contact_relation', '')
-            )
-        messages.success(request, "Excel file uploaded successfully!")
-        return redirect('student_list')
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+                first_name, middle_name, last_name, student_id, year_level, email, date_of_birth,gender,phone_number, current_address,permanent_address,emergency_contact_name,\
+                emergency_contact_phone, emergency_contact_relation = row
+                Student.objects.create(
+                    first_name=first_name,
+                    middle_name=middle_name,
+                    last_name=last_name,
+                    student_id=student_id,
+                    year_level=year_level,
+                    email=email,
+                    date_of_birth=date_of_birth,
+                    gender=gender,
+                    phone_number=phone_number,
+                    current_address=current_address,
+                    permanent_address=permanent_address,
+                    emergency_contact_name=emergency_contact_name,
+                    emergency_contact_phone=emergency_contact_phone,
+                    emergency_contact_relation=emergency_contact_relation
+                )
+            messages.success(request, "Excel file uploaded successfully!")
+            return redirect('student_list')
+    else:
+        form = UploadFileForm(request.POST, request.FILES)
+        print("Hello there 2")
+    return redirect('student_list')
 
 # Accounts
 def register(request):
@@ -146,7 +155,8 @@ def student_info(request, pk):
 @login_required
 def student_list(request):
     students = Student.objects.all()
-    return render(request, 'core/student_list.html', {'students': students})
+    form = UploadFileForm()
+    return render(request, 'core/student_list.html', {'students': students, 'form':form})
 
 @login_required
 def student_create(request):
