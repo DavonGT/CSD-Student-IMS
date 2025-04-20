@@ -10,6 +10,17 @@ from django.core.files.storage import FileSystemStorage
 import pandas as pd
 from django.core.serializers.json import DjangoJSONEncoder
 import json
+import requests
+
+def get_provinces():
+    # Fetch the provinces from the API
+    url = "https://psgc.gitlab.io/api/provinces/"
+    response = requests.get(url)
+    provinces = response.json()
+
+    # Sort provinces alphabetically by the name
+    provinces = sorted(provinces, key=lambda x: x['name'])
+    return provinces
 
 def calendar_view(request):
     students = Student.objects.all()
@@ -25,7 +36,6 @@ def calendar_view(request):
     })
 
 def upload_excel(request):
-    print("working")
     if request.method == 'POST' and request.FILES['excel_file']:
         excel_file = request.FILES['excel_file']
         df = pd.read_excel(excel_file)
@@ -87,7 +97,6 @@ def logoutView(request):
 def dashboard(request):
     total_students = Student.objects.count()
 
-
     # Gender distribution
     gender_counts = Student.objects.values('gender').annotate(count=Count('gender'))
     gender_data = {
@@ -136,23 +145,33 @@ def student_list(request):
 
 @login_required
 def student_create(request):
+    provinces = get_provinces()
     if request.method == 'POST':
-        form = StudentForm(request.POST)
+        form = StudentForm(request.POST, provinces=provinces)
         if form.is_valid():
+            print('create form cleaned:',form.cleaned_data)
             form.save()
+            print("This is the form",form)
             return redirect('student_list')
     else:
-        form = StudentForm()
-    return render(request, 'core/student_form.html', {'form': form})
+        form = StudentForm(provinces=provinces)
+    return render(request, 'core/student_form.html', {'form': form, 'provinces': provinces})
 
 @login_required
 def student_update(request, pk):
     student = get_object_or_404(Student, pk=pk)
-    form = StudentForm(request.POST or None, instance=student)
-    if form.is_valid():
-        form.save()
-        return redirect('student_list')
-    return render(request, 'core/student_form.html', {'form': form})
+    provinces = get_provinces()
+    if request.method == 'POST':
+        form = StudentForm(request.POST, instance=student, provinces=provinces)
+        if form.is_valid():
+            print('update form cleaned:',form.cleaned_data)
+            form.save()
+            print("This is the form",form)
+            return redirect('student_list')
+    else:
+        form = StudentForm(instance=student, provinces=provinces)
+    return render(request, 'core/student_form.html', {'form': form, 'provinces': provinces})
+
 
 @login_required
 def student_delete(request, pk):
