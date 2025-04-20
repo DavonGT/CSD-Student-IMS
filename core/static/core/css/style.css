@@ -400,10 +400,12 @@ label {
     margin-top: 10px;
     font-weight: bold;
 }
-input[readonly], textarea[readonly] {
+
+input[readonly],
+textarea[readonly]  {
     font-size: 16px;
     height: 30px;
-    width: 350px;
+    width: 100%;
     padding: 5px;
     margin-top: 2px;
     background-color: transparent;
@@ -517,4 +519,25 @@ input[readonly], textarea[readonly] {
         margin: 1em;
     }
 
+}
+
+@media (max-width: 450px) {
+    .other-student-form-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr ;
+        grid-template-areas:
+            "box1"
+            "box2"
+            "box3"
+            "box4"
+        ;
+        color: #333;
+        gap: 1em;
+        text-align: left;
+        padding: 0;
+    }
+    textarea[readonly] {
+        height: 70px;
+    }
 }
