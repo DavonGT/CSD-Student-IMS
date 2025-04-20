@@ -23,8 +23,8 @@
 /* Modal Box */
 .modal-content {
     width: 25vw; 
-    height: 1650px;
-    top: 380px;
+    height: 1750px;
+    top: 450px;
     gap: 1em;
     display: flex;
     justify-content:center;
@@ -35,6 +35,10 @@
     background-color: #fff;
     color: #333;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    font-weight: 600;
 }
 
 .modal button {
@@ -202,9 +206,10 @@
 
 @media (max-width: 1024px) {
     .modal-content {
-        width: 40%;
+        width: 50%;
         padding: 1em 2em;
-        min-height: 95vh;
+        min-height: 100vh;
+        margin-top: 50px;
     }
     .open-modal-btn button {
         width: 40vw;
@@ -219,7 +224,7 @@
 
 @media (max-width: 800px) {
     .modal-content {
-        width: 40%;
+        width: 50%;
         padding: 1em 2em;
         min-height: 60vh;
     }
@@ -229,18 +234,23 @@
 }
 
 @media (max-width: 425px) {
-    .modal-content {
-        height: 75vh;
-        width: 100%;
-        width: 85vw;
-        padding: 1em 5em;
+    .modal {
+        background-color: #fff;
     }
-    .open-modal-btn button {
-        width: 85vw;    
+    .modal-content {
+        margin-top: 350px;
+        margin-bottom: 100px;
+        height: 100vh;
+        width: 100%;
+        padding: 1em 5em;
+        box-shadow: none;
+    }
+    .modal-content button {
+        width: 80vw;    
     }
     .modal-content select,
     .modal-content textarea,
     .modal-content input  { 
-        min-width: 50vw;
+        min-width: 80vw;
     }
 }
