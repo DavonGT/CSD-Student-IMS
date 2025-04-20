@@ -49,7 +49,7 @@ def upload_excel(request):
             sheet = wb.active
 
             for row in sheet.iter_rows(min_row=2, values_only=True):
-                first_name, middle_name, last_name, student_id, year_level, email, date_of_birth,gender,phone_number, current_address,permanent_address,emergency_contact_name,\
+                first_name, middle_name, last_name, student_id, year_level, email, date_of_birth,gender,phone_number, current_province, current_city_muni, current_barangay, permanent_province, permanent_city_muni, permanent_barangay, emergency_contact_name,\
                 emergency_contact_phone, emergency_contact_relation = row
                 Student.objects.create(
                     first_name=first_name,
@@ -61,8 +61,12 @@ def upload_excel(request):
                     date_of_birth=date_of_birth,
                     gender=gender,
                     phone_number=phone_number,
-                    current_address=current_address,
-                    permanent_address=permanent_address,
+                    current_province=current_province,
+                    current_city_muni=current_city_muni,
+                    current_barangay=current_barangay,
+                    permanent_province=permanent_province,
+                    permanent_city_muni=permanent_city_muni,
+                    permanent_barangay=permanent_barangay,
                     emergency_contact_name=emergency_contact_name,
                     emergency_contact_phone=emergency_contact_phone,
                     emergency_contact_relation=emergency_contact_relation
