@@ -10,7 +10,7 @@
     position: fixed;
     overflow: hidden;
     z-index: 9;
-    left: 0;
+    left: 0; 
     top: 0;
     width: 100vw;
     height: 100vh;
@@ -45,7 +45,7 @@
     max-width: 360px;
     width: 100%;
     padding: 12px;
-    background: #4f772d;
+    background: #8868e7;
     border-radius: 6px;
     border: none;
     cursor: #fff;
@@ -60,7 +60,7 @@
     min-width: 100%;
     height: auto;
     padding: 12px;
-    background: #4f772d;
+    background: #8868e7;
     border-radius: 6px;
     border: none;
     color: #fff;
@@ -80,7 +80,7 @@
     max-width: 400px;
     width: 100%;
     padding: 0.8em 2em;
-    background: #4f772d;
+    background: #8868e7;
     border-radius: 6px;
     border: none;
     cursor: #fff;
@@ -92,7 +92,7 @@
 }
 /* ffd60a */
 .open-modal-btn button:hover {
-    background-color: #4f772d;
+    background-color: #8868e7;
     color:  #ffd60a;
     cursor: pointer;
     transition: color 0.3s ease, background 0.3s ease;
@@ -102,18 +102,24 @@
 
 /* Close Button */
 .close {
-    height: 5em;
-    width: 4em;
+    height: 2.5em;
+    width: 2.5em;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
     color: #fff;
     float: right;
     cursor: pointer;
     position: absolute;
-    top: 10px;
-    right: 0;
+    top: 5px;
+    right: 5px;
 }
 
 .close:hover {
-    color: #333;
+    border-radius: 2em;
+    cursor: pointer;
+    transition: color 0.3s ease, background 0.3s ease;
+    box-shadow: 0 0 5px rgb(0, 0, 0);
 }
 
 /* Form Container */

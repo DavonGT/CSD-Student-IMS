@@ -85,9 +85,12 @@
                 {{ form.emergency_contact_relation.label }} {{ form.emergency_contact_relation }}
             </div>
             
-            <div class="modal-info-container" style="grid-area: info3"></div>
-                <button class="save-button" type="submit">Save</button>
+            <div class="modal-info-container" style="grid-area: info3">
                 <button class="cancel-button" onclick="window.location.href='{% url 'student_list' %}'">Cancel</button>
+            </div>
+
+            <div class="modal-info-container" style="grid-area: info4">
+                <button class="save-button" type="submit">Save</button>
             </div>
         </form>
     </div>
