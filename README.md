@@ -30,8 +30,8 @@ Ensure you have the following installed on your system:
 
 2. Set up the virtual environment:
    ```bash
-   python -m venv venv
-   source venv/bin/activate   # On Windows use `venv\Scripts\activate`
+   python -m venv .venv
+   source .venv/bin/activate   # On Windows use `venv\Scripts\activate`
    ```
 
 3. Install dependencies:
@@ -41,6 +41,7 @@ Ensure you have the following installed on your system:
 
 4. Apply database migrations:
    ```bash
+   python manage.py makemigrations core
    python manage.py migrate
    ```
 
