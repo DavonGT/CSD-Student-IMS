@@ -79,6 +79,7 @@ def upload_excel(request):
             sheet = wb.active
 
             for row in sheet.iter_rows(min_row=2, values_only=True):
+                row = row[:-1]
                 first_name, middle_name, last_name, student_id, year_level, email, date_of_birth,gender,phone_number, current_province, current_city, current_barangay, permanent_province, permanent_city, permanent_barangay, emergency_contact_name,\
                 emergency_contact_phone, emergency_contact_relation = row
                 Student.objects.create(
