@@ -15,6 +15,7 @@ import openpyxl
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
+import os
 
 class CustomLoginView(LoginView):
     template_name = 'core/login.html'
@@ -24,14 +25,47 @@ class CustomLoginView(LoginView):
         return self.success_url
 
 def get_provinces():
-    # Fetch the provinces from the API
-    url = "https://psgc.gitlab.io/api/provinces/"
-    response = requests.get(url)
-    provinces = response.json()
+    # Load provinces from the local JSON file
+    file_path = os.path.join(os.path.dirname(__file__), 'api/provinces.json')
+    with open(file_path, 'r') as file:
+        provinces = json.load(file)
 
     # Sort provinces alphabetically by the name
     provinces = sorted(provinces, key=lambda x: x['name'])
     return provinces
+
+def get_province_code(name):
+    if not name:
+        return ""
+    file_path = os.path.join(os.path.dirname(__file__), 'api/provinces.json')
+    with open(file_path, 'r') as file:
+        provinces = json.load(file)
+    for province in provinces:
+        if province.get("name", "").lower() == name.lower():
+            return province.get("code", "")
+    return ""
+
+def get_city_code(name):
+    if not name:
+        return ""
+    file_path = os.path.join(os.path.dirname(__file__), 'api/cities-municipalities.json')
+    with open(file_path, 'r') as file:
+        cities = json.load(file)
+    for city in cities:
+        if city.get("name", "").lower() == name.lower():
+            return city.get("code", "")
+    return ""
+
+def get_barangay_code(name):
+    if not name:
+        return ""
+    file_path = os.path.join(os.path.dirname(__file__), 'api/barangays.json')
+    with open(file_path, 'r') as file:
+        barangays = json.load(file)
+    for barangay in barangays:
+        if barangay.get("name", "").lower() == name.lower():
+            return barangay.get("code", "")
+    return ""
 
 def calendar_view(request):
     students = Student.objects.all()
@@ -47,36 +81,6 @@ def calendar_view(request):
     })
 
 def upload_excel(request):
-    def get_province_code(name):
-        if not name:
-            return ""
-        response = requests.get("https://psgc.gitlab.io/api/provinces/")
-        if response.status_code == 200:
-            for province in response.json():
-                if province.get("name", "").lower() == name.lower():
-                    return province.get("code", "")
-        return ""
-
-    def get_city_code(name):
-        if not name:
-            return ""
-        response = requests.get("https://psgc.gitlab.io/api/cities-municipalities/")
-        if response.status_code == 200:
-            for city in response.json():
-                if city.get("name", "").lower() == name.lower():
-                    return city.get("code", "")
-        return ""
-
-    def get_barangay_code(name):
-        if not name:
-            return ""
-        response = requests.get("https://psgc.gitlab.io/api/barangays/")
-        if response.status_code == 200:
-            for barangay in response.json():
-                if barangay.get("name", "").lower() == name.lower():
-                    return barangay.get("code", "")
-        return ""
-
     if request.method == 'POST':
         print("Hello there")
         form = UploadFileForm(request.POST, request.FILES)
@@ -109,6 +113,7 @@ def upload_excel(request):
                     permanent_province_code=get_province_code(permanent_province.title()),
                     permanent_city_code=get_city_code(permanent_city.title()),
                     permanent_barangay_code=get_barangay_code(permanent_barangay.title()),
+                    emergency_contact_name=emergency_contact_name.title(),
                     emergency_contact_phone=emergency_contact_phone,
                     emergency_contact_relation=emergency_contact_relation[0].upper()
                 )
@@ -193,6 +198,7 @@ def dashboard(request):
 
 def student_info(request, pk):
     student = get_object_or_404(Student, pk=pk)
+    print('Student!!!!!!!!!!!!!:',student)
     return render(request, 'core/student_other_info.html', {'student': student})
 
 @login_required

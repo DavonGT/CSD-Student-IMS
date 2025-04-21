@@ -1,3 +1,5 @@
+import os
+import json
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -70,26 +72,37 @@ class Student(models.Model):
         return f"{self.get_barangay_name(self.permanent_barangay_code)}, {self.get_city_name(self.permanent_city_code)}, {self.get_province_name(self.permanent_province_code)}"
 
     def get_province_name(self, code):
-        import requests
         if not code:
             return ""
-        response = requests.get(f"https://psgc.gitlab.io/api/provinces/{code}/")
-        return response.json().get("name", "") if response.status_code == 200 else ""
+        file_path = os.path.join(os.path.dirname(__file__), 'api/provinces.json')
+        with open(file_path, 'r') as file:
+            provinces = json.load(file)
+        for province in provinces:
+            if province.get("code", "") == code:
+                return province.get("name", "")
+        return ""
 
     def get_city_name(self, code):
-        import requests
         if not code:
             return ""
-        response = requests.get(f"https://psgc.gitlab.io/api/cities-municipalities/{code}/")
-        return response.json().get("name", "") if response.status_code == 200 else ""
+        file_path = os.path.join(os.path.dirname(__file__), 'api/cities-municipalities.json')
+        with open(file_path, 'r') as file:
+            cities = json.load(file)
+        for city in cities:
+            if city.get("code", "") == code:
+                return city.get("name", "")
+        return ""
 
     def get_barangay_name(self, code):
-        import requests
         if not code:
             return ""
-        response = requests.get(f"https://psgc.gitlab.io/api/barangays/{code}/")
-        return response.json().get("name", "") if response.status_code == 200 else ""
-
+        file_path = os.path.join(os.path.dirname(__file__), 'api/barangays.json')
+        with open(file_path, 'r') as file:
+            barangays = json.load(file)
+        for barangay in barangays:
+            if barangay.get("code", "") == code:
+                return barangay.get("name", "")
+        return ""
 
     def __str__(self):
         return f"{self.name} ({self.student_id})"
