@@ -15,18 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from . import views
+from django.contrib.auth.views import LogoutView
+from .views import CustomLoginView, register, dashboard, calendar_view, upload_excel, student_list, student_create, student_update, student_delete, student_info
 
 urlpatterns = [
-    path('login/', views.loginView, name='login'),
-    path('register/', views.register, name='register'),
-    path('logout/', views.logoutView, name='logout'),
-    path('', views.dashboard, name='dashboard'),
-    path('calendar/', views.calendar_view, name="calendar"),
-    path('upload-excel/', views.upload_excel, name='upload_excel'),
-    path('show_students/', views.student_list, name='student_list'),
-    path('create/', views.student_create, name='student_create'),
-    path('update/<int:pk>/', views.student_update, name='student_update'),
-    path('delete/<int:pk>/', views.student_delete, name='student_delete'),
-    path('other_info/<int:pk>', views.student_info, name='other_info'),
+    path('login/', CustomLoginView.as_view(), name='login'),
+    path('register/', register, name='register'),
+    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('', dashboard, name='dashboard'),
+    path('calendar/', calendar_view, name="calendar"),
+    path('upload-excel/', upload_excel, name='upload_excel'),
+    path('show_students/', student_list, name='student_list'),
+    path('create/', student_create, name='student_create'),
+    path('update/<int:pk>/', student_update, name='student_update'),
+    path('delete/<int:pk>/', student_delete, name='student_delete'),
+    path('other_info/<int:pk>', student_info, name='other_info'),
 ]

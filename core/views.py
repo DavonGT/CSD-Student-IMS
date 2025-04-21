@@ -12,6 +12,16 @@ from django.core.serializers.json import DjangoJSONEncoder
 import json
 import requests
 import openpyxl
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+
+class CustomLoginView(LoginView):
+    template_name = 'core/login.html'
+    success_url = reverse_lazy('dashboard')  # Replace 'dashboard' with your desired URL name
+
+    def get_success_url(self):
+        return self.success_url
 
 def get_provinces():
     # Fetch the provinces from the API
@@ -112,19 +122,17 @@ def upload_excel(request):
 # Accounts
 def register(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        password1 = request.POST['password1']
-        if password != password1:
-            messages.error(request, "Passwords didn't match!")
-            return render(request, 'core/register')
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists.')
-        else:
-            User.objects.create_user(username=username, password=password)
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
             messages.success(request, 'Registered successfully.')
-            return redirect('login')
-    return render(request, 'core/register.html')
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Registration failed. Please correct the errors below.')
+    else:
+        form = UserCreationForm()
+    return render(request, 'core/register.html', {'form': form})
 
 def loginView(request):
     if request.method == 'POST':

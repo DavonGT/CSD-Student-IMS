@@ -7,22 +7,56 @@
 
   {% load static %}
   <link rel="stylesheet" href="{% static 'core/css/login_signup.css' %}">
-
+  <style>
+    /* Inline CSS for error styling (move to your CSS file if preferred) */
+    .error {
+      color: #ff4d4d;
+      background-color: #ffe6e6;
+      border: 1px solid #ff4d4d;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .input-field {
+      margin-bottom: 20px;
+    }
+    .input-field label {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
   <div class="container">
     <form method="POST" class="login-form-box">
-      <h1>Login</h1>
       {% csrf_token %}
-
+      <h1>Login</h1>
+      
+      <!-- Display field-specific errors -->
       <div class="input-field">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
+        {{ form.username.label }}<br>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <div class="error">{{ form.username.errors|join:", " }}</div>
+        {% endif %}
       </div>
-
+      
+      <div class="input-field">
+        {{ form.password.label }}<br>
+        {{ form.password }}
+        {% if form.password.errors %}
+          <div class="error">{{ form.password.errors|join:", " }}</div>
+        {% endif %}
+      </div>
+      
+      <!-- Display non-field errors -->
+      {% if form.non_field_errors %}
+        <div class="error">{{ form.non_field_errors }}</div>
+      {% endif %}
+      
       <button class="login-btn" type="submit">Login</button>
-      <button class="create-acc-btn" onclick="window.location.href='{% url 'register' %}'">Create an Account</button>
+      <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
     </form>
   </div>
   
