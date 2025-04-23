@@ -14,6 +14,7 @@
     <form method="post" class="modal-content">
         {% csrf_token %}
             
+<<<<<<< HEAD
         <!-- Other Student Fields -->
         <div class="modal-content-container" style="grid-area: info1">
             <h3>Personal Info</h3>
@@ -92,6 +93,11 @@
             <button class="save-button" type="submit">Save</button>
         </div>
     </form>
+=======
+            <div class="modal-info-container" style="grid-area: info3">
+                <button class="cancel-button" type="button" onclick="window.location.href='{% url 'student_list' %}'">Cancel</button>
+            </div>
+>>>>>>> 2cc3f7d5b50c6ece5cbace305310608510cfabfd
 
     <!-- JavaScript for Dynamic Address Population -->
     <script>
