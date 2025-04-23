@@ -121,7 +121,7 @@ body {
 }
 
 .sidebar-spacer {
-    height: 46vh;
+    height: 50vh;
     border-bottom: 2px solid var(--primary-color);
 }
 
@@ -434,7 +434,7 @@ textarea[readonly]  {
 
 @media (max-width: 1024px) {
     .sidebar-spacer {
-        height: 40vh;
+        height: 45vh;
     }
 }
 
